@@ -1,0 +1,15 @@
+{
+  "name": "ic-radix-rs",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/horizonx-tech/ic-radix-rs.git",
+  "author": "hide-yoshi <hide-yoshi@users.noreply.github.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@openapitools/openapi-generator-cli": "^2.13.4",
+    "@stoplight/prism-cli": "^5.8.1"
+  },
+  "scripts": {
+    "gen": "openapi-generator-cli generate -i ./openapi/openapi.yml -g rust -o ./src"
+  }
+}
