@@ -7,11 +7,23 @@ license = "The Radix License, Version 1.0"
 edition = "2018"
 
 [dependencies]
+candid = "0.10.8"
+ic-cdk = "0.13.3"
+ic-cdk-macros = "0.13.3"
 serde = "^1.0"
 serde_derive = "^1.0"
 serde_json = "^1.0"
 url = "^2.2"
-uuid = { version = "^1.0", features = ["serde", "v4"] }
+tokio = { version = "1.0", optional = true, features = ["full"] }
+jsonrpc-core = "18.0.0"
+futures = "0.3.30"
+anyhow = "1.0.83"
+derive_builder = "0.20.0"
+async-trait = "0.1.80"
+
 [dependencies.reqwest]
 version = "^0.11"
 features = ["json", "multipart"]
+
+[dev-dependencies]
+tokio = { version = "1.0", features = ["macros"] }
