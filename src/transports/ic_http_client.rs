@@ -12,7 +12,7 @@ use ic_cdk::api::management_canister::http_request::{
 use reqwest::{IntoUrl, Method, Request, Response};
 use serde::{self, Deserialize, Serialize};
 
-use super::client::Client;
+use crate::client::Client;
 
 #[derive(Clone, Debug)]
 pub struct ICHttpClient {
@@ -44,7 +44,7 @@ impl ICHttpClient {
         req_headers: Vec<HttpHeader>,
         payload: &Request,
         options: CallOptions,
-    ) -> Result<Vec<u8>, String> {
+    ) -> Result<Vec<u8>> {
         let body = payload
             .body()
             .map(|b| b.as_bytes().map(|b| b.to_vec()))
@@ -74,12 +74,8 @@ impl ICHttpClient {
         let cycles = http_request_required_cycles(&request);
         match http_request(request.clone(), cycles).await {
             Ok((result,)) => Ok(result.body),
-            Err((r, m)) => {
-                let message = format!(
-                    "The http_request resulted into error. RejectionCode: {r:?}, Error: {m}"
-                );
-                ic_cdk::api::print(message.clone());
-                Err(message)
+            Err((_, m)) => {
+                anyhow::bail!("Failed to make http request: {}", m);
             }
         }
     }
@@ -104,7 +100,7 @@ impl ICHttpClient {
         url: String,
         payload: &Request,
         options: CallOptions,
-    ) -> Result<Vec<u8>, String> {
+    ) -> Result<Vec<u8>> {
         let request_headers = vec![HttpHeader {
             name: "Content-Type".to_string(),
             value: "application/json".to_string(),
@@ -125,22 +121,16 @@ impl Client for ICHttpClient {
         let method = request.method().clone();
         match method {
             Method::GET => {
-                let url = request.url().clone();
-                let url_str = url.as_str().to_string();
-                let options = CallOptions::default();
-                let resp = self.get(url_str, &request, options).await?;
-                let resp_str = String::from_utf8(resp).unwrap();
-                let resp = Response::new(resp_str.into());
-                Ok(resp)
+                let result = self
+                    .get(request.url().to_string(), &request, CallOptions::default())
+                    .await?;
+                todo!()
             }
             Method::POST => {
-                let url = request.url().clone();
-                let url_str = url.as_str().to_string();
-                let options = CallOptions::default();
-                let resp = self.post(url_str, &request, options).await?;
-                let resp_str = String::from_utf8(resp).unwrap();
-                let resp = Response::new(resp_str.into());
-                Ok(resp)
+                let result = self
+                    .post(request.url().to_string(), &request, CallOptions::default())
+                    .await?;
+                todo!()
             }
             _ => unimplemented!(),
         }

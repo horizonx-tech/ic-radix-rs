@@ -10,6 +10,6 @@
     "@stoplight/prism-cli": "^5.8.1"
   },
   "scripts": {
-    "gen": "openapi-generator-cli generate -i ./openapi/openapi.yml -g rust -o ./src"
+    "gen": "openapi-generator-cli generate -i ./openapi/openapi.yml -g rust -o ./tmp"
   }
 }

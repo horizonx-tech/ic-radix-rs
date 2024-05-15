@@ -4,7 +4,8 @@ use anyhow::Result;
 use async_trait::async_trait;
 use reqwest::{IntoUrl, Method, Request, Response};
 
-use super::client::Client;
+use crate::client::Client;
+
 #[derive(Debug, Clone)]
 pub struct HttpClient {
     inner: reqwest::Client,
