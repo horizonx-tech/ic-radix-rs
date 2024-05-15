@@ -45,7 +45,9 @@ pub async fn validators_uptime<T: Client>(
     local_var_req_builder = local_var_req_builder.json(&validators_uptime_request);
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let local_var_resp = local_var_client
+        .execute(local_var_req, configuration.call_options.clone())
+        .await?;
 
     let local_var_status = local_var_resp.status();
     let local_var_content = local_var_resp.text().await?;

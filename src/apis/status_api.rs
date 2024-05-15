@@ -49,7 +49,9 @@ pub async fn gateway_status<T: Client>(
     }
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let local_var_resp = local_var_client
+        .execute(local_var_req, configuration.call_options.clone())
+        .await?;
 
     let local_var_status = local_var_resp.status();
     let local_var_content = local_var_resp.text().await?;
@@ -89,7 +91,9 @@ pub async fn network_configuration<T: Client>(
     }
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let local_var_resp = local_var_client
+        .execute(local_var_req, configuration.call_options.clone())
+        .await?;
 
     let local_var_status = local_var_resp.status();
     let local_var_content = local_var_resp.text().await?;

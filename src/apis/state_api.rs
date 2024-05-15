@@ -182,7 +182,9 @@ pub async fn account_authorized_depositors_page<T: Client>(
         local_var_req_builder.json(&state_account_authorized_depositors_page_request);
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let local_var_resp = local_var_client
+        .execute(local_var_req, configuration.call_options.clone())
+        .await?;
 
     let local_var_status = local_var_resp.status();
     let local_var_content = local_var_resp.text().await?;
@@ -225,7 +227,9 @@ pub async fn account_resource_preferences_page<T: Client>(
         local_var_req_builder.json(&state_account_resource_preferences_page_request);
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let local_var_resp = local_var_client
+        .execute(local_var_req, configuration.call_options.clone())
+        .await?;
 
     let local_var_status = local_var_resp.status();
     let local_var_content = local_var_resp.text().await?;
@@ -268,7 +272,9 @@ pub async fn entity_fungible_resource_vault_page<T: Client>(
         local_var_req_builder.json(&state_entity_fungible_resource_vaults_page_request);
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let local_var_resp = local_var_client
+        .execute(local_var_req, configuration.call_options.clone())
+        .await?;
 
     let local_var_status = local_var_resp.status();
     let local_var_content = local_var_resp.text().await?;
@@ -310,7 +316,9 @@ pub async fn entity_fungibles_page<T: Client>(
     local_var_req_builder = local_var_req_builder.json(&state_entity_fungibles_page_request);
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let local_var_resp = local_var_client
+        .execute(local_var_req, configuration.call_options.clone())
+        .await?;
 
     let local_var_status = local_var_resp.status();
     let local_var_content = local_var_resp.text().await?;
@@ -352,7 +360,9 @@ pub async fn entity_metadata_page<T: Client>(
     local_var_req_builder = local_var_req_builder.json(&state_entity_metadata_page_request);
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let local_var_resp = local_var_client
+        .execute(local_var_req, configuration.call_options.clone())
+        .await?;
 
     let local_var_status = local_var_resp.status();
     let local_var_content = local_var_resp.text().await?;
@@ -394,7 +404,9 @@ pub async fn entity_non_fungible_ids_page<T: Client>(
     local_var_req_builder = local_var_req_builder.json(&state_entity_non_fungible_ids_page_request);
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let local_var_resp = local_var_client
+        .execute(local_var_req, configuration.call_options.clone())
+        .await?;
 
     let local_var_status = local_var_resp.status();
     let local_var_content = local_var_resp.text().await?;
@@ -437,7 +449,9 @@ pub async fn entity_non_fungible_resource_vault_page<T: Client>(
         local_var_req_builder.json(&state_entity_non_fungible_resource_vaults_page_request);
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let local_var_resp = local_var_client
+        .execute(local_var_req, configuration.call_options.clone())
+        .await?;
 
     let local_var_status = local_var_resp.status();
     let local_var_content = local_var_resp.text().await?;
@@ -479,7 +493,9 @@ pub async fn entity_non_fungibles_page<T: Client>(
     local_var_req_builder = local_var_req_builder.json(&state_entity_non_fungibles_page_request);
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let local_var_resp = local_var_client
+        .execute(local_var_req, configuration.call_options.clone())
+        .await?;
 
     let local_var_status = local_var_resp.status();
     let local_var_content = local_var_resp.text().await?;
@@ -521,7 +537,9 @@ pub async fn entity_schema_page<T: Client>(
     local_var_req_builder = local_var_req_builder.json(&state_entity_schema_page_request);
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let local_var_resp = local_var_client
+        .execute(local_var_req, configuration.call_options.clone())
+        .await?;
 
     let local_var_status = local_var_resp.status();
     let local_var_content = local_var_resp.text().await?;
@@ -563,7 +581,9 @@ pub async fn key_value_store_data<T: Client>(
     local_var_req_builder = local_var_req_builder.json(&state_key_value_store_data_request);
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let local_var_resp = local_var_client
+        .execute(local_var_req, configuration.call_options.clone())
+        .await?;
 
     let local_var_status = local_var_resp.status();
     let local_var_content = local_var_resp.text().await?;
@@ -605,7 +625,9 @@ pub async fn key_value_store_keys<T: Client>(
     local_var_req_builder = local_var_req_builder.json(&state_key_value_store_keys_request);
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let local_var_resp = local_var_client
+        .execute(local_var_req, configuration.call_options.clone())
+        .await?;
 
     let local_var_status = local_var_resp.status();
     let local_var_content = local_var_resp.text().await?;
@@ -647,7 +669,9 @@ pub async fn non_fungible_data<T: Client>(
     local_var_req_builder = local_var_req_builder.json(&state_non_fungible_data_request);
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let local_var_resp = local_var_client
+        .execute(local_var_req, configuration.call_options.clone())
+        .await?;
 
     let local_var_status = local_var_resp.status();
     let local_var_content = local_var_resp.text().await?;
@@ -689,7 +713,9 @@ pub async fn non_fungible_ids<T: Client>(
     local_var_req_builder = local_var_req_builder.json(&state_non_fungible_ids_request);
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let local_var_resp = local_var_client
+        .execute(local_var_req, configuration.call_options.clone())
+        .await?;
 
     let local_var_status = local_var_resp.status();
     let local_var_content = local_var_resp.text().await?;
@@ -731,7 +757,9 @@ pub async fn non_fungible_location<T: Client>(
     local_var_req_builder = local_var_req_builder.json(&state_non_fungible_location_request);
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let local_var_resp = local_var_client
+        .execute(local_var_req, configuration.call_options.clone())
+        .await?;
 
     let local_var_status = local_var_resp.status();
     let local_var_content = local_var_resp.text().await?;
@@ -773,7 +801,9 @@ pub async fn package_blueprint_page<T: Client>(
     local_var_req_builder = local_var_req_builder.json(&state_package_blueprint_page_request);
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let local_var_resp = local_var_client
+        .execute(local_var_req, configuration.call_options.clone())
+        .await?;
 
     let local_var_status = local_var_resp.status();
     let local_var_content = local_var_resp.text().await?;
@@ -815,7 +845,9 @@ pub async fn package_code_page<T: Client>(
     local_var_req_builder = local_var_req_builder.json(&state_package_code_page_request);
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let local_var_resp = local_var_client
+        .execute(local_var_req, configuration.call_options.clone())
+        .await?;
 
     let local_var_status = local_var_resp.status();
     let local_var_content = local_var_resp.text().await?;
@@ -854,7 +886,9 @@ pub async fn state_entity_details<T: Client>(
     local_var_req_builder = local_var_req_builder.json(&state_entity_details_request);
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let local_var_resp = local_var_client
+        .execute(local_var_req, configuration.call_options.clone())
+        .await?;
 
     let local_var_status = local_var_resp.status();
     let local_var_content = local_var_resp.text().await?;
@@ -895,7 +929,9 @@ pub async fn state_validators_list<T: Client>(
     local_var_req_builder = local_var_req_builder.json(&state_validators_list_request);
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let local_var_resp = local_var_client
+        .execute(local_var_req, configuration.call_options.clone())
+        .await?;
 
     let local_var_status = local_var_resp.status();
     let local_var_content = local_var_resp.text().await?;

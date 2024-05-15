@@ -6,6 +6,8 @@ use reqwest::{IntoUrl, Method, Request, Response};
 
 use crate::client::Client;
 
+use super::CallOptions;
+
 #[derive(Debug, Clone)]
 pub struct HttpClient {
     inner: reqwest::Client,
@@ -25,7 +27,7 @@ impl Client for HttpClient {
         self.inner.request(method, url)
     }
 
-    async fn execute(&self, request: Request) -> Result<Response> {
+    async fn execute(&self, request: Request, _: CallOptions) -> Result<Response> {
         self.inner.execute(request).await.map_err(Into::into)
     }
 }
@@ -42,7 +44,10 @@ mod test {
     async fn test_execute() {
         let client = HttpClient::new();
         let request = client.request(Method::GET, "https://example.com");
-        let response = client.execute(request.build().unwrap()).await.unwrap();
+        let response = client
+            .execute(request.build().unwrap(), CallOptions::default())
+            .await
+            .unwrap();
         assert!(response.status().is_success());
     }
 }

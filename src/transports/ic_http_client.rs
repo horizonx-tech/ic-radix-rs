@@ -117,18 +117,18 @@ impl Client for ICHttpClient {
         unimplemented!()
     }
 
-    async fn execute(&self, request: Request) -> Result<Response> {
+    async fn execute(&self, request: Request, options: CallOptions) -> Result<Response> {
         let method = request.method().clone();
         match method {
             Method::GET => {
                 let result = self
-                    .get(request.url().to_string(), &request, CallOptions::default())
+                    .get(request.url().to_string(), &request, options)
                     .await?;
                 todo!()
             }
             Method::POST => {
                 let result = self
-                    .post(request.url().to_string(), &request, CallOptions::default())
+                    .post(request.url().to_string(), &request, options)
                     .await?;
                 todo!()
             }

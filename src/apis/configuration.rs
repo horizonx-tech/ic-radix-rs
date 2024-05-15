@@ -10,9 +10,10 @@
 
 use crate::{
     client::Client,
-    transports::{HttpClient, ICHttpClient},
+    transports::{CallOptions, HttpClient, ICHttpClient},
 };
-
+const USER_AGENT: &str = "OpenAPI-Generator/v1.5.2/rust";
+const MAINNET_BASE_PATH: &str = "https://mainnet.radixdlt.com";
 #[derive(Debug, Clone)]
 pub struct Configuration<T: Client> {
     pub base_path: String,
@@ -22,7 +23,7 @@ pub struct Configuration<T: Client> {
     pub oauth_access_token: Option<String>,
     pub bearer_access_token: Option<String>,
     pub api_key: Option<ApiKey>,
-    // TODO: take an oauth2 token source, similar to the go one
+    pub call_options: CallOptions,
 }
 
 pub type BasicAuth = (String, Option<String>);
@@ -48,13 +49,14 @@ impl Configuration<ICHttpClient> {
 impl Default for Configuration<ICHttpClient> {
     fn default() -> Self {
         Configuration {
-            base_path: "https://ic0.app".to_owned(),
-            user_agent: Some("OpenAPI-Generator/v1.5.2/rust".to_owned()),
+            base_path: MAINNET_BASE_PATH.to_owned(),
+            user_agent: Some(USER_AGENT.to_owned()),
             client: ICHttpClient::new(None),
-            basic_auth: None,
-            oauth_access_token: None,
-            bearer_access_token: None,
             api_key: None,
+            basic_auth: None,
+            bearer_access_token: None,
+            oauth_access_token: None,
+            call_options: CallOptions::default(),
         }
     }
 }
@@ -62,13 +64,14 @@ impl Default for Configuration<ICHttpClient> {
 impl Default for Configuration<HttpClient> {
     fn default() -> Self {
         Configuration {
-            base_path: "https://mainnet.radixdlt.com".to_owned(),
-            user_agent: Some("OpenAPI-Generator/v1.5.2/rust".to_owned()),
+            base_path: MAINNET_BASE_PATH.to_owned(),
+            user_agent: Some(USER_AGENT.to_owned()),
             client: HttpClient::new(),
-            basic_auth: None,
-            oauth_access_token: None,
-            bearer_access_token: None,
             api_key: None,
+            basic_auth: None,
+            bearer_access_token: None,
+            oauth_access_token: None,
+            call_options: CallOptions::default(),
         }
     }
 }

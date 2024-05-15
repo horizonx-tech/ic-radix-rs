@@ -84,7 +84,9 @@ pub async fn account_deposit_pre_validation<T: Client>(
     local_var_req_builder = local_var_req_builder.json(&account_deposit_pre_validation_request);
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let local_var_resp = local_var_client
+        .execute(local_var_req, configuration.call_options.clone())
+        .await?;
 
     let local_var_status = local_var_resp.status();
     let local_var_content = local_var_resp.text().await?;
@@ -126,7 +128,9 @@ pub async fn transaction_committed_details<T: Client>(
     local_var_req_builder = local_var_req_builder.json(&transaction_committed_details_request);
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let local_var_resp = local_var_client
+        .execute(local_var_req, configuration.call_options.clone())
+        .await?;
 
     let local_var_status = local_var_resp.status();
     let local_var_content = local_var_resp.text().await?;
@@ -166,7 +170,9 @@ pub async fn transaction_construction<T: Client>(
     }
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let local_var_resp = local_var_client
+        .execute(local_var_req, configuration.call_options.clone())
+        .await?;
 
     let local_var_status = local_var_resp.status();
     let local_var_content = local_var_resp.text().await?;
@@ -205,7 +211,9 @@ pub async fn transaction_preview<T: Client>(
     local_var_req_builder = local_var_req_builder.json(&transaction_preview_request);
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let local_var_resp = local_var_client
+        .execute(local_var_req, configuration.call_options.clone())
+        .await?;
 
     let local_var_status = local_var_resp.status();
     let local_var_content = local_var_resp.text().await?;
@@ -244,7 +252,9 @@ pub async fn transaction_status<T: Client>(
     local_var_req_builder = local_var_req_builder.json(&transaction_status_request);
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let local_var_resp = local_var_client
+        .execute(local_var_req, configuration.call_options.clone())
+        .await?;
 
     let local_var_status = local_var_resp.status();
     let local_var_content = local_var_resp.text().await?;
@@ -283,7 +293,9 @@ pub async fn transaction_submit<T: Client>(
     local_var_req_builder = local_var_req_builder.json(&transaction_submit_request);
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let local_var_resp = local_var_client
+        .execute(local_var_req, configuration.call_options.clone())
+        .await?;
 
     let local_var_status = local_var_resp.status();
     let local_var_content = local_var_resp.text().await?;
