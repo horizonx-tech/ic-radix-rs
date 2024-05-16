@@ -1,6 +1,6 @@
 # ic-radix-rs
 
-A Rust implementation of the [Radix] (https://docs.radixdlt.com) Gateway API Client for the [Internet Computer] (https://dfinity.org/).
+A Rust implementation of the [Radix](https://docs.radixdlt.com) Gateway API Client for the [Internet Computer](https://dfinity.org/).
 
 ## Features
 
