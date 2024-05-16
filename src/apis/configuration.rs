@@ -21,10 +21,6 @@ pub struct Configuration<T: Client> {
     pub base_path: String,
     pub user_agent: Option<String>,
     pub client: T,
-    pub basic_auth: Option<BasicAuth>,
-    pub oauth_access_token: Option<String>,
-    pub bearer_access_token: Option<String>,
-    pub api_key: Option<ApiKey>,
     pub call_options: CallOptions,
 }
 
@@ -55,10 +51,6 @@ impl Default for Configuration<ICHttpClient> {
             base_path: MAINNET_BASE_PATH.to_owned(),
             user_agent: Some(USER_AGENT.to_owned()),
             client: ICHttpClient::new(None),
-            api_key: None,
-            basic_auth: None,
-            bearer_access_token: None,
-            oauth_access_token: None,
             call_options: CallOptions::default(),
         }
     }
@@ -70,10 +62,6 @@ impl Default for Configuration<HttpClient> {
             base_path: MAINNET_BASE_PATH.to_owned(),
             user_agent: Some(USER_AGENT.to_owned()),
             client: HttpClient::new(),
-            api_key: None,
-            basic_auth: None,
-            bearer_access_token: None,
-            oauth_access_token: None,
             call_options: CallOptions::default(),
         }
     }
