@@ -20,7 +20,7 @@ derive_builder = "0.20.0"
 async-trait = "0.1.80"
 serde_with = "^2.0"
 
-[dependencies.reqwest]
+[dev-dependencies.reqwest]
 version = "^0.11"
 features = ["json", "multipart"]
 

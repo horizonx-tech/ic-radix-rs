@@ -11,7 +11,6 @@
 use std::str::FromStr;
 
 use anyhow::Result;
-use reqwest::Method;
 
 use super::{configuration, Error, StatusCode};
 use crate::{apis::ResponseContent, client::Client, invoke, models};

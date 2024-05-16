@@ -1,11 +1,18 @@
-type Response = variant {
-    network: text;
-    state_version: nat64;
-    proposer_round_timestamp: text;
-    epoch: nat64;
-    round: nat64;
-}
-
+type HttpHeader = record { value : text; name : text };
+type HttpResponse = record {
+  status : nat;
+  body : blob;
+  headers : vec HttpHeader;
+};
+type Response = record {
+  state_version : int64;
+  proposer_round_timestamp : text;
+  network : text;
+  epoch : int64;
+  round : int64;
+};
+type TransformArgs = record { context : blob; response : HttpResponse };
 service : {
-    "example_transaction_construction": () -> (text) query;
+  example_transaction_construction : () -> (Response);
+  transform : (TransformArgs) -> (HttpResponse) query;
 }

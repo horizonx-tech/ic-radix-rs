@@ -3,22 +3,24 @@
 use anyhow::{Ok, Result};
 use async_trait::async_trait;
 use ic_cdk::api::management_canister::http_request::{HttpHeader, HttpResponse};
-use reqwest::{IntoUrl, Method, Request, Response};
 
-use crate::client::Client;
+use crate::{
+    client::{Client, Request, RequestBuilder},
+    reqwest::Method,
+};
 
 use super::CallOptions;
 #[cfg(test)]
 #[derive(Debug, Clone)]
 pub struct HttpClient {
-    inner: reqwest::Client,
+    inner: outer_reqwest::Client,
 }
 
 #[cfg(test)]
 impl HttpClient {
     pub fn new() -> Self {
         HttpClient {
-            inner: reqwest::Client::new(),
+            inner: outer_reqwest::Client::new(),
         }
     }
 }
@@ -26,8 +28,8 @@ impl HttpClient {
 #[cfg(test)]
 #[async_trait]
 impl Client for HttpClient {
-    fn request<U: IntoUrl>(&self, method: Method, url: U) -> reqwest::RequestBuilder {
-        self.inner.request(method.into(), url)
+    fn request(&self, method: Method, url: &str) -> RequestBuilder {
+        RequestBuilder::new(method, url)
     }
 
     async fn execute(&self, request: Request, _: CallOptions) -> Result<HttpResponse> {
@@ -63,7 +65,7 @@ mod test {
         let client = HttpClient::new();
         let request = client.request(Method::GET, "https://example.com");
         let response = client
-            .execute(request.build().unwrap(), CallOptions::default())
+            .execute(request.build(), CallOptions::default())
             .await
             .unwrap();
         assert_eq!(response.status, Nat::from(200_u8));

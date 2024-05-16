@@ -29,7 +29,7 @@ impl From<Nat> for StatusCode {
 }
 #[derive(Debug)]
 pub enum Error<T> {
-    Reqwest(reqwest::Error),
+    Reqwest(std::io::Error),
     Serde(serde_json::Error),
     Io(std::io::Error),
     ResponseError(ResponseContent<T>),
@@ -55,12 +55,6 @@ impl<T: fmt::Debug> error::Error for Error<T> {
             Error::Io(e) => e,
             Error::ResponseError(_) => return None,
         })
-    }
-}
-
-impl<T> From<reqwest::Error> for Error<T> {
-    fn from(e: reqwest::Error) -> Self {
-        Error::Reqwest(e)
     }
 }
 

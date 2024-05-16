@@ -1,9 +1,9 @@
-use reqwest::Method;
 use serde::{de::DeserializeOwned, Deserialize, Serialize};
 
 use crate::{
     apis::{configuration, StatusCode},
     client::Client,
+    reqwest::Method,
 };
 
 #[macro_export]
@@ -37,14 +37,14 @@ impl Invoker {
         let local_var_client = &local_var_configuration.client;
         let local_var_uri_str = format!("{}{}", local_var_configuration.base_path, path);
         let mut local_var_req_builder =
-            local_var_client.request(Method::POST, local_var_uri_str.as_str());
+            local_var_client.request(Method::POST.into(), local_var_uri_str.as_str());
         if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
             local_var_req_builder = local_var_req_builder
-                .header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
+                .header("User-Agent".to_string(), local_var_user_agent.clone());
         }
         let local_var_req = match request {
-            Some(req) => local_var_req_builder.json(&req).build()?,
-            None => local_var_req_builder.build()?,
+            Some(req) => local_var_req_builder.json(&req)?.build(),
+            None => local_var_req_builder.build(),
         };
         let local_var_resp = local_var_client
             .execute(local_var_req, configuration.call_options.clone())

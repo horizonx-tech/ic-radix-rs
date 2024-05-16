@@ -9,10 +9,10 @@ use ic_cdk::api::management_canister::http_request::{
     http_request, CanisterHttpRequestArgument, HttpHeader, HttpMethod, HttpResponse,
     TransformContext, TransformFunc,
 };
-use reqwest::{IntoUrl, Method, Request, Response};
 use serde::{self, Deserialize, Serialize};
 
-use crate::client::Client;
+use crate::client::{Client, Request, RequestBuilder};
+use crate::reqwest::Method;
 
 #[derive(Clone, Debug)]
 pub struct ICHttpClient {
@@ -44,19 +44,9 @@ impl ICHttpClient {
         payload: &Request,
         options: CallOptions,
     ) -> Result<HttpResponse> {
-        let body = payload
-            .body()
-            .map(|b| b.as_bytes().map(|b| b.to_vec()))
-            .flatten();
-        let headers: Vec<HttpHeader> = payload
-            .headers()
-            .iter()
-            .map(|(k, v)| HttpHeader {
-                name: k.to_string(),
-                value: v.to_str().unwrap_or_default().to_string(),
-            })
-            .collect();
-        let request = CanisterHttpRequestArgument {
+        let body = payload.clone().body;
+        let headers: Vec<HttpHeader> = payload.clone().headers;
+        let request: CanisterHttpRequestArgument = CanisterHttpRequestArgument {
             url: url.clone(),
             max_response_bytes: if let Some(v) = options.max_resp {
                 Some(v)
@@ -108,20 +98,12 @@ impl ICHttpClient {
 
 #[async_trait]
 impl Client for ICHttpClient {
-    fn request<U: IntoUrl>(&self, method: Method, url: U) -> reqwest::RequestBuilder {
-        reqwest::Client::new().request(method, url)
+    fn request(&self, method: Method, url: &str) -> RequestBuilder {
+        RequestBuilder::new(method, url)
     }
 
     async fn execute(&self, request: Request, options: CallOptions) -> Result<HttpResponse> {
-        let method = request.method().clone();
-        match method {
-            Method::GET => self.get(request.url().to_string(), &request, options).await,
-            Method::POST => {
-                self.post(request.url().to_string(), &request, options)
-                    .await
-            }
-            _ => anyhow::bail!("Unsupported method: {:?}", method),
-        }
+        self.post(request.url.to_string(), &request, options).await
     }
 }
 
