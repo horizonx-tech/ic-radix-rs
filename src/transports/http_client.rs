@@ -1,7 +1,8 @@
 #![allow(dead_code)]
 
-use anyhow::Result;
+use anyhow::{Ok, Result};
 use async_trait::async_trait;
+use ic_cdk::api::management_canister::http_request::{HttpHeader, HttpResponse};
 use reqwest::{IntoUrl, Method, Request, Response};
 
 use crate::client::Client;
@@ -27,13 +28,28 @@ impl Client for HttpClient {
         self.inner.request(method, url)
     }
 
-    async fn execute(&self, request: Request, _: CallOptions) -> Result<Response> {
-        self.inner.execute(request).await.map_err(Into::into)
+    async fn execute(&self, request: Request, _: CallOptions) -> Result<HttpResponse> {
+        let result = self.inner.execute(request).await?;
+        let headers = result
+            .headers()
+            .iter()
+            .map(|(k, v)| (k.to_string(), v.to_str().unwrap_or_default().to_string()))
+            .map(|(k, v)| HttpHeader { name: k, value: v })
+            .collect();
+        let status = result.status().as_u16().into();
+        let body = result.bytes().await?.to_vec();
+        Ok(HttpResponse {
+            body,
+            headers,
+            status,
+        })
     }
 }
 
 #[cfg(test)]
 mod test {
+    use candid::Nat;
+
     use super::*;
     #[test]
     fn test_new() {
@@ -48,6 +64,6 @@ mod test {
             .execute(request.build().unwrap(), CallOptions::default())
             .await
             .unwrap();
-        assert!(response.status().is_success());
+        assert_eq!(response.status, Nat::from(200_u8));
     }
 }

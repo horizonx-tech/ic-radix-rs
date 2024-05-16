@@ -44,7 +44,7 @@ impl ICHttpClient {
         req_headers: Vec<HttpHeader>,
         payload: &Request,
         options: CallOptions,
-    ) -> Result<Vec<u8>> {
+    ) -> Result<HttpResponse> {
         let body = payload
             .body()
             .map(|b| b.as_bytes().map(|b| b.to_vec()))
@@ -73,7 +73,7 @@ impl ICHttpClient {
 
         let cycles = http_request_required_cycles(&request);
         match http_request(request.clone(), cycles).await {
-            Ok((result,)) => Ok(result.body),
+            Ok((result,)) => Ok(result),
             Err((_, m)) => {
                 anyhow::bail!("Failed to make http request: {}", m);
             }
@@ -85,7 +85,7 @@ impl ICHttpClient {
         url: String,
         payload: &Request,
         options: CallOptions,
-    ) -> Result<Vec<u8>> {
+    ) -> Result<HttpResponse> {
         let request_headers = vec![HttpHeader {
             name: "Content-Type".to_string(),
             value: "application/json".to_string(),
@@ -100,7 +100,7 @@ impl ICHttpClient {
         url: String,
         payload: &Request,
         options: CallOptions,
-    ) -> Result<Vec<u8>> {
+    ) -> Result<HttpResponse> {
         let request_headers = vec![HttpHeader {
             name: "Content-Type".to_string(),
             value: "application/json".to_string(),
@@ -114,25 +114,18 @@ impl ICHttpClient {
 #[async_trait]
 impl Client for ICHttpClient {
     fn request<U: IntoUrl>(&self, method: Method, url: U) -> reqwest::RequestBuilder {
-        unimplemented!()
+        reqwest::Client::new().request(method, url)
     }
 
-    async fn execute(&self, request: Request, options: CallOptions) -> Result<Response> {
+    async fn execute(&self, request: Request, options: CallOptions) -> Result<HttpResponse> {
         let method = request.method().clone();
         match method {
-            Method::GET => {
-                let result = self
-                    .get(request.url().to_string(), &request, options)
-                    .await?;
-                todo!()
-            }
+            Method::GET => self.get(request.url().to_string(), &request, options).await,
             Method::POST => {
-                let result = self
-                    .post(request.url().to_string(), &request, options)
-                    .await?;
-                todo!()
+                self.post(request.url().to_string(), &request, options)
+                    .await
             }
-            _ => unimplemented!(),
+            _ => anyhow::bail!("Unsupported method: {:?}", method),
         }
     }
 }

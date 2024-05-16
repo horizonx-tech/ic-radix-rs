@@ -34,12 +34,13 @@ pub struct ApiKey {
     pub key: String,
 }
 
+#[cfg(test)]
 impl Configuration<HttpClient> {
     pub fn new() -> Configuration<HttpClient> {
         Configuration::default()
     }
 }
-
+#[cfg(not(test))]
 impl Configuration<ICHttpClient> {
     pub fn new() -> Configuration<ICHttpClient> {
         Configuration::default()
