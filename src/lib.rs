@@ -10,5 +10,6 @@ extern crate url;
 
 pub mod apis;
 pub mod client;
+pub mod invoker;
 pub mod models;
 pub mod transports;

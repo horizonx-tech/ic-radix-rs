@@ -136,7 +136,6 @@ mod test {
     async fn test_construction_metadata() {
         let cfg = configuration::Configuration::new();
         let res = transaction_construction(&cfg).await;
-        println!("{:?}", res.as_ref().err());
         assert!(res.is_ok());
     }
 }

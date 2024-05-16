@@ -41,7 +41,6 @@ impl ICHttpClient {
         &self,
         url: String,
         req_type: HttpMethod,
-        req_headers: Vec<HttpHeader>,
         payload: &Request,
         options: CallOptions,
     ) -> Result<HttpResponse> {
@@ -49,6 +48,14 @@ impl ICHttpClient {
             .body()
             .map(|b| b.as_bytes().map(|b| b.to_vec()))
             .flatten();
+        let headers: Vec<HttpHeader> = payload
+            .headers()
+            .iter()
+            .map(|(k, v)| HttpHeader {
+                name: k.to_string(),
+                value: v.to_str().unwrap_or_default().to_string(),
+            })
+            .collect();
         let request = CanisterHttpRequestArgument {
             url: url.clone(),
             max_response_bytes: if let Some(v) = options.max_resp {
@@ -57,7 +64,7 @@ impl ICHttpClient {
                 Some(self.max_response_bytes)
             },
             method: req_type,
-            headers: req_headers,
+            headers,
             body,
             transform: match options.transform {
                 Some(t) => Some(t),
@@ -86,13 +93,7 @@ impl ICHttpClient {
         payload: &Request,
         options: CallOptions,
     ) -> Result<HttpResponse> {
-        let request_headers = vec![HttpHeader {
-            name: "Content-Type".to_string(),
-            value: "application/json".to_string(),
-        }];
-
-        self.request(url, HttpMethod::GET, request_headers, &payload, options)
-            .await
+        self.request(url, HttpMethod::GET, &payload, options).await
     }
 
     pub async fn post(
@@ -101,13 +102,7 @@ impl ICHttpClient {
         payload: &Request,
         options: CallOptions,
     ) -> Result<HttpResponse> {
-        let request_headers = vec![HttpHeader {
-            name: "Content-Type".to_string(),
-            value: "application/json".to_string(),
-        }];
-
-        self.request(url, HttpMethod::POST, request_headers, payload, options)
-            .await
+        self.request(url, HttpMethod::POST, payload, options).await
     }
 }
 
