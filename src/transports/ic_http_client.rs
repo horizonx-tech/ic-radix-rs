@@ -58,7 +58,7 @@ impl ICHttpClient {
             },
             method: req_type,
             headers: req_headers,
-            body: body,
+            body,
             transform: match options.transform {
                 Some(t) => Some(t),
                 None => Some(TransformContext {
@@ -91,7 +91,7 @@ impl ICHttpClient {
             value: "application/json".to_string(),
         }];
 
-        self.request(url, HttpMethod::GET, request_headers, payload, options)
+        self.request(url, HttpMethod::GET, request_headers, &payload, options)
             .await
     }
 

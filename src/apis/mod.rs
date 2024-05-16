@@ -1,13 +1,32 @@
 use std::error;
 use std::fmt;
 
+use candid::Nat;
+
 #[derive(Debug, Clone)]
 pub struct ResponseContent<T> {
-    pub status: reqwest::StatusCode,
+    pub status: StatusCode,
     pub content: String,
     pub entity: Option<T>,
 }
-
+#[derive(Debug, Clone)]
+pub struct StatusCode(pub Nat);
+impl StatusCode {
+    pub fn is_success(&self) -> bool {
+        self.0 >= Nat::from(200_u8) && self.0 < Nat::from(300_u16)
+    }
+    pub fn is_client_error(&self) -> bool {
+        self.0 >= Nat::from(400_u16) && self.0 < Nat::from(500_u16)
+    }
+    pub fn is_server_error(&self) -> bool {
+        self.0 >= Nat::from(500_u16) && self.0 < Nat::from(600_u16)
+    }
+}
+impl From<Nat> for StatusCode {
+    fn from(n: Nat) -> Self {
+        StatusCode(n)
+    }
+}
 #[derive(Debug)]
 pub enum Error<T> {
     Reqwest(reqwest::Error),
@@ -16,19 +35,19 @@ pub enum Error<T> {
     ResponseError(ResponseContent<T>),
 }
 
-impl <T> fmt::Display for Error<T> {
+impl<T> fmt::Display for Error<T> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let (module, e) = match self {
             Error::Reqwest(e) => ("reqwest", e.to_string()),
             Error::Serde(e) => ("serde", e.to_string()),
             Error::Io(e) => ("IO", e.to_string()),
-            Error::ResponseError(e) => ("response", format!("status code {}", e.status)),
+            Error::ResponseError(e) => ("response", format!("status code {:?}", e.status)),
         };
         write!(f, "error in {}: {}", module, e)
     }
 }
 
-impl <T: fmt::Debug> error::Error for Error<T> {
+impl<T: fmt::Debug> error::Error for Error<T> {
     fn source(&self) -> Option<&(dyn error::Error + 'static)> {
         Some(match self {
             Error::Reqwest(e) => e,
@@ -39,19 +58,19 @@ impl <T: fmt::Debug> error::Error for Error<T> {
     }
 }
 
-impl <T> From<reqwest::Error> for Error<T> {
+impl<T> From<reqwest::Error> for Error<T> {
     fn from(e: reqwest::Error) -> Self {
         Error::Reqwest(e)
     }
 }
 
-impl <T> From<serde_json::Error> for Error<T> {
+impl<T> From<serde_json::Error> for Error<T> {
     fn from(e: serde_json::Error) -> Self {
         Error::Serde(e)
     }
 }
 
-impl <T> From<std::io::Error> for Error<T> {
+impl<T> From<std::io::Error> for Error<T> {
     fn from(e: std::io::Error) -> Self {
         Error::Io(e)
     }
@@ -78,8 +97,10 @@ pub fn parse_deep_object(prefix: &str, value: &serde_json::Value) -> Vec<(String
                             value,
                         ));
                     }
-                },
-                serde_json::Value::String(s) => params.push((format!("{}[{}]", prefix, key), s.clone())),
+                }
+                serde_json::Value::String(s) => {
+                    params.push((format!("{}[{}]", prefix, key), s.clone()))
+                }
                 _ => params.push((format!("{}[{}]", prefix, key), value.to_string())),
             }
         }

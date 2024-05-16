@@ -8,12 +8,13 @@ use reqwest::{IntoUrl, Method, Request, Response};
 use crate::client::Client;
 
 use super::CallOptions;
-
+#[cfg(test)]
 #[derive(Debug, Clone)]
 pub struct HttpClient {
     inner: reqwest::Client,
 }
 
+#[cfg(test)]
 impl HttpClient {
     pub fn new() -> Self {
         HttpClient {
@@ -22,14 +23,15 @@ impl HttpClient {
     }
 }
 
+#[cfg(test)]
 #[async_trait]
 impl Client for HttpClient {
     fn request<U: IntoUrl>(&self, method: Method, url: U) -> reqwest::RequestBuilder {
-        self.inner.request(method, url)
+        self.inner.request(method.into(), url)
     }
 
     async fn execute(&self, request: Request, _: CallOptions) -> Result<HttpResponse> {
-        let result = self.inner.execute(request).await?;
+        let result = self.inner.execute(request.into()).await?;
         let headers = result
             .headers()
             .iter()

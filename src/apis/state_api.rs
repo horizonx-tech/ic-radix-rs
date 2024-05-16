@@ -11,10 +11,15 @@
 use std::str::FromStr;
 
 use anyhow::Result;
-use reqwest::{self, StatusCode};
 
-use super::{configuration, Error};
-use crate::{apis::ResponseContent, client::Client, models};
+use super::{configuration, Error, StatusCode};
+use crate::{
+    apis::ResponseContent,
+    client::Client,
+    invoke,
+    invoker::{self, Invoker},
+    models,
+};
 
 /// struct for typed errors of method [`account_authorized_depositors_page`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -165,44 +170,11 @@ pub async fn account_authorized_depositors_page<T: Client>(
     configuration: &configuration::Configuration<T>,
     state_account_authorized_depositors_page_request: models::StateAccountAuthorizedDepositorsPageRequest,
 ) -> Result<models::StateAccountAuthorizedDepositorsPageResponse> {
-    let local_var_configuration = configuration;
-
-    let local_var_client = &local_var_configuration.client;
-
-    let local_var_uri_str = format!(
-        "{}/state/account/page/authorized-depositors",
-        local_var_configuration.base_path
-    );
-    let mut local_var_req_builder =
-        local_var_client.request(reqwest::Method::POST, local_var_uri_str.as_str());
-
-    if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
-        local_var_req_builder =
-            local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
-    }
-    local_var_req_builder =
-        local_var_req_builder.json(&state_account_authorized_depositors_page_request);
-
-    let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client
-        .execute(local_var_req, configuration.call_options.clone())
-        .await?;
-
-    let local_var_status = StatusCode::from_str(local_var_resp.status.to_string().as_str())?;
-    let local_var_content = local_var_resp.body;
-
-    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
-        serde_json::from_slice(&local_var_content).map_err(anyhow::Error::from)
-    } else {
-        let local_var_entity: Option<AccountAuthorizedDepositorsPageError> =
-            serde_json::from_slice(&local_var_content).ok();
-        let local_var_error = ResponseContent {
-            status: local_var_status,
-            content: serde_json::to_string_pretty(local_var_content.as_slice())?,
-            entity: local_var_entity,
-        };
-        Err(Error::ResponseError(local_var_error).into())
-    }
+    invoke!(
+        configuration,
+        state_account_authorized_depositors_page_request,
+        "/state/account/page/authorized-depositors"
+    )
 }
 
 /// Returns paginable collection of resource preference rules for given account.
@@ -210,44 +182,11 @@ pub async fn account_resource_preferences_page<T: Client>(
     configuration: &configuration::Configuration<T>,
     state_account_resource_preferences_page_request: models::StateAccountResourcePreferencesPageRequest,
 ) -> Result<models::StateAccountResourcePreferencesPageResponse> {
-    let local_var_configuration = configuration;
-
-    let local_var_client = &local_var_configuration.client;
-
-    let local_var_uri_str = format!(
-        "{}/state/account/page/resource-preferences",
-        local_var_configuration.base_path
-    );
-    let mut local_var_req_builder =
-        local_var_client.request(reqwest::Method::POST, local_var_uri_str.as_str());
-
-    if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
-        local_var_req_builder =
-            local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
-    }
-    local_var_req_builder =
-        local_var_req_builder.json(&state_account_resource_preferences_page_request);
-
-    let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client
-        .execute(local_var_req, configuration.call_options.clone())
-        .await?;
-
-    let local_var_status = StatusCode::from_str(local_var_resp.status.to_string().as_str())?;
-    let local_var_content = local_var_resp.body;
-
-    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
-        serde_json::from_slice(&local_var_content).map_err(anyhow::Error::from)
-    } else {
-        let local_var_entity: Option<AccountResourcePreferencesPageError> =
-            serde_json::from_slice(&local_var_content).ok();
-        let local_var_error = ResponseContent {
-            status: local_var_status,
-            content: serde_json::to_string_pretty(local_var_content.as_slice())?,
-            entity: local_var_entity,
-        };
-        Err(Error::ResponseError(local_var_error).into())
-    }
+    invoke!(
+        configuration,
+        state_account_resource_preferences_page_request,
+        "/state/account/page/resource-preferences"
+    )
 }
 
 /// Returns vaults for fungible resource owned by a given global entity. The returned response is in a paginated format, ordered by the resource's first appearance on the ledger.
@@ -255,44 +194,11 @@ pub async fn entity_fungible_resource_vault_page<T: Client>(
     configuration: &configuration::Configuration<T>,
     state_entity_fungible_resource_vaults_page_request: models::StateEntityFungibleResourceVaultsPageRequest,
 ) -> Result<models::StateEntityFungibleResourceVaultsPageResponse> {
-    let local_var_configuration = configuration;
-
-    let local_var_client = &local_var_configuration.client;
-
-    let local_var_uri_str = format!(
-        "{}/state/entity/page/fungible-vaults/",
-        local_var_configuration.base_path
-    );
-    let mut local_var_req_builder =
-        local_var_client.request(reqwest::Method::POST, local_var_uri_str.as_str());
-
-    if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
-        local_var_req_builder =
-            local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
-    }
-    local_var_req_builder =
-        local_var_req_builder.json(&state_entity_fungible_resource_vaults_page_request);
-
-    let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client
-        .execute(local_var_req, configuration.call_options.clone())
-        .await?;
-
-    let local_var_status = StatusCode::from_str(local_var_resp.status.to_string().as_str())?;
-    let local_var_content = local_var_resp.body;
-
-    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
-        serde_json::from_slice(&local_var_content).map_err(anyhow::Error::from)
-    } else {
-        let local_var_entity: Option<EntityFungibleResourceVaultPageError> =
-            serde_json::from_slice(&local_var_content).ok();
-        let local_var_error = ResponseContent {
-            status: local_var_status,
-            content: serde_json::to_string_pretty(local_var_content.as_slice())?,
-            entity: local_var_entity,
-        };
-        Err(Error::ResponseError(local_var_error).into())
-    }
+    invoke!(
+        configuration,
+        state_entity_fungible_resource_vaults_page_request,
+        "/state/entity/page/fungible-vaults/"
+    )
 }
 
 /// Returns the total amount of each fungible resource owned by a given global entity. Result can be aggregated globally or per vault. The returned response is in a paginated format, ordered by the resource's first appearance on the ledger.
@@ -300,43 +206,11 @@ pub async fn entity_fungibles_page<T: Client>(
     configuration: &configuration::Configuration<T>,
     state_entity_fungibles_page_request: models::StateEntityFungiblesPageRequest,
 ) -> Result<models::StateEntityFungiblesPageResponse> {
-    let local_var_configuration = configuration;
-
-    let local_var_client = &local_var_configuration.client;
-
-    let local_var_uri_str = format!(
-        "{}/state/entity/page/fungibles/",
-        local_var_configuration.base_path
-    );
-    let mut local_var_req_builder =
-        local_var_client.request(reqwest::Method::POST, local_var_uri_str.as_str());
-
-    if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
-        local_var_req_builder =
-            local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
-    }
-    local_var_req_builder = local_var_req_builder.json(&state_entity_fungibles_page_request);
-
-    let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client
-        .execute(local_var_req, configuration.call_options.clone())
-        .await?;
-
-    let local_var_status = StatusCode::from_str(local_var_resp.status.to_string().as_str())?;
-    let local_var_content = local_var_resp.body;
-
-    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
-        serde_json::from_slice(&local_var_content).map_err(anyhow::Error::from)
-    } else {
-        let local_var_entity: Option<EntityFungiblesPageError> =
-            serde_json::from_slice(&local_var_content).ok();
-        let local_var_error = ResponseContent {
-            status: local_var_status,
-            content: serde_json::to_string_pretty(local_var_content.as_slice())?,
-            entity: local_var_entity,
-        };
-        Err(Error::ResponseError(local_var_error).into())
-    }
+    invoke!(
+        configuration,
+        state_entity_fungibles_page_request,
+        "/state/entity/page/fungibles/"
+    )
 }
 
 /// Returns all the metadata properties associated with a given global entity. The returned response is in a paginated format, ordered by first appearance on the ledger.
@@ -344,43 +218,11 @@ pub async fn entity_metadata_page<T: Client>(
     configuration: &configuration::Configuration<T>,
     state_entity_metadata_page_request: models::StateEntityMetadataPageRequest,
 ) -> Result<models::StateEntityMetadataPageResponse> {
-    let local_var_configuration = configuration;
-
-    let local_var_client = &local_var_configuration.client;
-
-    let local_var_uri_str = format!(
-        "{}/state/entity/page/metadata",
-        local_var_configuration.base_path
-    );
-    let mut local_var_req_builder =
-        local_var_client.request(reqwest::Method::POST, local_var_uri_str.as_str());
-
-    if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
-        local_var_req_builder =
-            local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
-    }
-    local_var_req_builder = local_var_req_builder.json(&state_entity_metadata_page_request);
-
-    let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client
-        .execute(local_var_req, configuration.call_options.clone())
-        .await?;
-
-    let local_var_status = StatusCode::from_str(local_var_resp.status.to_string().as_str())?;
-    let local_var_content = local_var_resp.body;
-
-    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
-        serde_json::from_slice(&local_var_content).map_err(anyhow::Error::from)
-    } else {
-        let local_var_entity: Option<EntityMetadataPageError> =
-            serde_json::from_slice(&local_var_content).ok();
-        let local_var_error = ResponseContent {
-            status: local_var_status,
-            content: serde_json::to_string_pretty(local_var_content.as_slice())?,
-            entity: local_var_entity,
-        };
-        Err(Error::ResponseError(local_var_error).into())
-    }
+    invoke!(
+        configuration,
+        state_entity_metadata_page_request,
+        "/state/entity/page/metadata"
+    )
 }
 
 /// Returns all non-fungible IDs of a given non-fungible resource owned by a given entity. The returned response is in a paginated format, ordered by the resource's first appearence on the ledger.
@@ -388,43 +230,11 @@ pub async fn entity_non_fungible_ids_page<T: Client>(
     configuration: &configuration::Configuration<T>,
     state_entity_non_fungible_ids_page_request: models::StateEntityNonFungibleIdsPageRequest,
 ) -> Result<models::StateEntityNonFungibleIdsPageResponse> {
-    let local_var_configuration = configuration;
-
-    let local_var_client = &local_var_configuration.client;
-
-    let local_var_uri_str = format!(
-        "{}/state/entity/page/non-fungible-vault/ids",
-        local_var_configuration.base_path
-    );
-    let mut local_var_req_builder =
-        local_var_client.request(reqwest::Method::POST, local_var_uri_str.as_str());
-
-    if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
-        local_var_req_builder =
-            local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
-    }
-    local_var_req_builder = local_var_req_builder.json(&state_entity_non_fungible_ids_page_request);
-
-    let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client
-        .execute(local_var_req, configuration.call_options.clone())
-        .await?;
-
-    let local_var_status = StatusCode::from_str(local_var_resp.status.to_string().as_str())?;
-    let local_var_content = local_var_resp.body;
-
-    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
-        serde_json::from_slice(&local_var_content).map_err(anyhow::Error::from)
-    } else {
-        let local_var_entity: Option<EntityNonFungibleIdsPageError> =
-            serde_json::from_slice(&local_var_content).ok();
-        let local_var_error = ResponseContent {
-            status: local_var_status,
-            content: serde_json::to_string_pretty(local_var_content.as_slice())?,
-            entity: local_var_entity,
-        };
-        Err(Error::ResponseError(local_var_error).into())
-    }
+    invoke!(
+        configuration,
+        state_entity_non_fungible_ids_page_request,
+        "/state/entity/page/non-fungible-vault/ids"
+    )
 }
 
 /// Returns vaults for non fungible resource owned by a given global entity. The returned response is in a paginated format, ordered by the resource's first appearance on the ledger.
@@ -432,44 +242,11 @@ pub async fn entity_non_fungible_resource_vault_page<T: Client>(
     configuration: &configuration::Configuration<T>,
     state_entity_non_fungible_resource_vaults_page_request: models::StateEntityNonFungibleResourceVaultsPageRequest,
 ) -> Result<models::StateEntityNonFungibleResourceVaultsPageResponse> {
-    let local_var_configuration = configuration;
-
-    let local_var_client = &local_var_configuration.client;
-
-    let local_var_uri_str = format!(
-        "{}/state/entity/page/non-fungible-vaults/",
-        local_var_configuration.base_path
-    );
-    let mut local_var_req_builder =
-        local_var_client.request(reqwest::Method::POST, local_var_uri_str.as_str());
-
-    if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
-        local_var_req_builder =
-            local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
-    }
-    local_var_req_builder =
-        local_var_req_builder.json(&state_entity_non_fungible_resource_vaults_page_request);
-
-    let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client
-        .execute(local_var_req, configuration.call_options.clone())
-        .await?;
-
-    let local_var_status = StatusCode::from_str(local_var_resp.status.to_string().as_str())?;
-    let local_var_content = local_var_resp.body;
-
-    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
-        serde_json::from_slice(&local_var_content).map_err(anyhow::Error::from)
-    } else {
-        let local_var_entity: Option<EntityNonFungibleResourceVaultPageError> =
-            serde_json::from_slice(&local_var_content).ok();
-        let local_var_error = ResponseContent {
-            status: local_var_status,
-            content: serde_json::to_string_pretty(local_var_content.as_slice())?,
-            entity: local_var_entity,
-        };
-        Err(Error::ResponseError(local_var_error).into())
-    }
+    invoke!(
+        configuration,
+        state_entity_non_fungible_resource_vaults_page_request,
+        "/state/entity/page/non-fungible-vaults/"
+    )
 }
 
 /// Returns the total amount of each non-fungible resource owned by a given global entity. Result can be aggregated globally or per vault. The returned response is in a paginated format, ordered by the resource's first appearance on the ledger.
@@ -477,43 +254,11 @@ pub async fn entity_non_fungibles_page<T: Client>(
     configuration: &configuration::Configuration<T>,
     state_entity_non_fungibles_page_request: models::StateEntityNonFungiblesPageRequest,
 ) -> Result<models::StateEntityNonFungiblesPageResponse> {
-    let local_var_configuration = configuration;
-
-    let local_var_client = &local_var_configuration.client;
-
-    let local_var_uri_str = format!(
-        "{}/state/entity/page/non-fungibles/",
-        local_var_configuration.base_path
-    );
-    let mut local_var_req_builder =
-        local_var_client.request(reqwest::Method::POST, local_var_uri_str.as_str());
-
-    if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
-        local_var_req_builder =
-            local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
-    }
-    local_var_req_builder = local_var_req_builder.json(&state_entity_non_fungibles_page_request);
-
-    let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client
-        .execute(local_var_req, configuration.call_options.clone())
-        .await?;
-
-    let local_var_status = StatusCode::from_str(local_var_resp.status.to_string().as_str())?;
-    let local_var_content = local_var_resp.body;
-
-    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
-        serde_json::from_slice(&local_var_content).map_err(anyhow::Error::from)
-    } else {
-        let local_var_entity: Option<EntityNonFungiblesPageError> =
-            serde_json::from_slice(&local_var_content).ok();
-        let local_var_error = ResponseContent {
-            status: local_var_status,
-            content: serde_json::to_string_pretty(local_var_content.as_slice())?,
-            entity: local_var_entity,
-        };
-        Err(Error::ResponseError(local_var_error).into())
-    }
+    invoke!(
+        configuration,
+        state_entity_non_fungibles_page_request,
+        "/state/entity/page/non-fungibles/"
+    )
 }
 
 /// Returns all the schemas associated with a given global entity. The returned response is in a paginated format, ordered by first appearance on the ledger.
@@ -521,43 +266,11 @@ pub async fn entity_schema_page<T: Client>(
     configuration: &configuration::Configuration<T>,
     state_entity_schema_page_request: models::StateEntitySchemaPageRequest,
 ) -> Result<models::StateEntitySchemaPageResponse> {
-    let local_var_configuration = configuration;
-
-    let local_var_client = &local_var_configuration.client;
-
-    let local_var_uri_str = format!(
-        "{}/state/entity/page/schemas",
-        local_var_configuration.base_path
-    );
-    let mut local_var_req_builder =
-        local_var_client.request(reqwest::Method::POST, local_var_uri_str.as_str());
-
-    if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
-        local_var_req_builder =
-            local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
-    }
-    local_var_req_builder = local_var_req_builder.json(&state_entity_schema_page_request);
-
-    let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client
-        .execute(local_var_req, configuration.call_options.clone())
-        .await?;
-
-    let local_var_status = StatusCode::from_str(local_var_resp.status.to_string().as_str())?;
-    let local_var_content = local_var_resp.body;
-
-    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
-        serde_json::from_slice(&local_var_content).map_err(anyhow::Error::from)
-    } else {
-        let local_var_entity: Option<EntitySchemaPageError> =
-            serde_json::from_slice(&local_var_content).ok();
-        let local_var_error = ResponseContent {
-            status: local_var_status,
-            content: serde_json::to_string_pretty(local_var_content.as_slice())?,
-            entity: local_var_entity,
-        };
-        Err(Error::ResponseError(local_var_error).into())
-    }
+    invoke!(
+        configuration,
+        state_entity_schema_page_request,
+        "/state/entity/page/schemas"
+    )
 }
 
 /// Returns data (value) associated with a given key of a given key-value store. [Check detailed documentation for explanation](#section/How-to-query-the-content-of-a-key-value-store-inside-a-component)
@@ -565,43 +278,11 @@ pub async fn key_value_store_data<T: Client>(
     configuration: &configuration::Configuration<T>,
     state_key_value_store_data_request: models::StateKeyValueStoreDataRequest,
 ) -> Result<models::StateKeyValueStoreDataResponse> {
-    let local_var_configuration = configuration;
-
-    let local_var_client = &local_var_configuration.client;
-
-    let local_var_uri_str = format!(
-        "{}/state/key-value-store/data",
-        local_var_configuration.base_path
-    );
-    let mut local_var_req_builder =
-        local_var_client.request(reqwest::Method::POST, local_var_uri_str.as_str());
-
-    if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
-        local_var_req_builder =
-            local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
-    }
-    local_var_req_builder = local_var_req_builder.json(&state_key_value_store_data_request);
-
-    let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client
-        .execute(local_var_req, configuration.call_options.clone())
-        .await?;
-
-    let local_var_status = StatusCode::from_str(local_var_resp.status.to_string().as_str())?;
-    let local_var_content = local_var_resp.body;
-
-    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
-        serde_json::from_slice(&local_var_content).map_err(anyhow::Error::from)
-    } else {
-        let local_var_entity: Option<KeyValueStoreDataError> =
-            serde_json::from_slice(&local_var_content).ok();
-        let local_var_error = ResponseContent {
-            status: local_var_status,
-            content: serde_json::to_string_pretty(local_var_content.as_slice())?,
-            entity: local_var_entity,
-        };
-        Err(Error::ResponseError(local_var_error).into())
-    }
+    invoke!(
+        configuration,
+        state_key_value_store_data_request,
+        "/state/key-value-store/data"
+    )
 }
 
 /// Allows to iterate over key value store keys.
@@ -609,43 +290,11 @@ pub async fn key_value_store_keys<T: Client>(
     configuration: &configuration::Configuration<T>,
     state_key_value_store_keys_request: models::StateKeyValueStoreKeysRequest,
 ) -> Result<models::StateKeyValueStoreKeysResponse> {
-    let local_var_configuration = configuration;
-
-    let local_var_client = &local_var_configuration.client;
-
-    let local_var_uri_str = format!(
-        "{}/state/key-value-store/keys",
-        local_var_configuration.base_path
-    );
-    let mut local_var_req_builder =
-        local_var_client.request(reqwest::Method::POST, local_var_uri_str.as_str());
-
-    if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
-        local_var_req_builder =
-            local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
-    }
-    local_var_req_builder = local_var_req_builder.json(&state_key_value_store_keys_request);
-
-    let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client
-        .execute(local_var_req, configuration.call_options.clone())
-        .await?;
-
-    let local_var_status = StatusCode::from_str(local_var_resp.status.to_string().as_str())?;
-    let local_var_content = local_var_resp.body;
-
-    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
-        serde_json::from_slice(&local_var_content).map_err(anyhow::Error::from)
-    } else {
-        let local_var_entity: Option<KeyValueStoreKeysError> =
-            serde_json::from_slice(&local_var_content).ok();
-        let local_var_error = ResponseContent {
-            status: local_var_status,
-            content: serde_json::to_string_pretty(local_var_content.as_slice())?,
-            entity: local_var_entity,
-        };
-        Err(Error::ResponseError(local_var_error).into())
-    }
+    invoke!(
+        configuration,
+        state_key_value_store_keys_request,
+        "/state/key-value-store/keys"
+    )
 }
 
 /// Returns data associated with a given non-fungible ID of a given non-fungible resource.
@@ -653,43 +302,11 @@ pub async fn non_fungible_data<T: Client>(
     configuration: &configuration::Configuration<T>,
     state_non_fungible_data_request: models::StateNonFungibleDataRequest,
 ) -> Result<models::StateNonFungibleDataResponse> {
-    let local_var_configuration = configuration;
-
-    let local_var_client = &local_var_configuration.client;
-
-    let local_var_uri_str = format!(
-        "{}/state/non-fungible/data",
-        local_var_configuration.base_path
-    );
-    let mut local_var_req_builder =
-        local_var_client.request(reqwest::Method::POST, local_var_uri_str.as_str());
-
-    if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
-        local_var_req_builder =
-            local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
-    }
-    local_var_req_builder = local_var_req_builder.json(&state_non_fungible_data_request);
-
-    let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client
-        .execute(local_var_req, configuration.call_options.clone())
-        .await?;
-
-    let local_var_status = StatusCode::from_str(local_var_resp.status.to_string().as_str())?;
-    let local_var_content = local_var_resp.body;
-
-    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
-        serde_json::from_slice(&local_var_content).map_err(anyhow::Error::from)
-    } else {
-        let local_var_entity: Option<NonFungibleDataError> =
-            serde_json::from_slice(&local_var_content).ok();
-        let local_var_error = ResponseContent {
-            status: local_var_status,
-            content: serde_json::to_string_pretty(local_var_content.as_slice())?,
-            entity: local_var_entity,
-        };
-        Err(Error::ResponseError(local_var_error).into())
-    }
+    invoke!(
+        configuration,
+        state_non_fungible_data_request,
+        "/state/non-fungible/data"
+    )
 }
 
 /// Returns the non-fungible IDs of a given non-fungible resource. Returned response is in a paginated format, ordered by their first appearance on the ledger.
@@ -697,43 +314,11 @@ pub async fn non_fungible_ids<T: Client>(
     configuration: &configuration::Configuration<T>,
     state_non_fungible_ids_request: models::StateNonFungibleIdsRequest,
 ) -> Result<models::StateNonFungibleIdsResponse> {
-    let local_var_configuration = configuration;
-
-    let local_var_client = &local_var_configuration.client;
-
-    let local_var_uri_str = format!(
-        "{}/state/non-fungible/ids",
-        local_var_configuration.base_path
-    );
-    let mut local_var_req_builder =
-        local_var_client.request(reqwest::Method::POST, local_var_uri_str.as_str());
-
-    if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
-        local_var_req_builder =
-            local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
-    }
-    local_var_req_builder = local_var_req_builder.json(&state_non_fungible_ids_request);
-
-    let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client
-        .execute(local_var_req, configuration.call_options.clone())
-        .await?;
-
-    let local_var_status = StatusCode::from_str(local_var_resp.status.to_string().as_str())?;
-    let local_var_content = local_var_resp.body;
-
-    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
-        serde_json::from_slice(&local_var_content).map_err(anyhow::Error::from)
-    } else {
-        let local_var_entity: Option<NonFungibleIdsError> =
-            serde_json::from_slice(&local_var_content).ok();
-        let local_var_error = ResponseContent {
-            status: local_var_status,
-            content: serde_json::to_string_pretty(local_var_content.as_slice())?,
-            entity: local_var_entity,
-        };
-        Err(Error::ResponseError(local_var_error).into())
-    }
+    invoke!(
+        configuration,
+        state_non_fungible_ids_request,
+        "/state/non-fungible/ids"
+    )
 }
 
 /// Returns location of a given non-fungible ID.
@@ -741,43 +326,11 @@ pub async fn non_fungible_location<T: Client>(
     configuration: &configuration::Configuration<T>,
     state_non_fungible_location_request: models::StateNonFungibleLocationRequest,
 ) -> Result<models::StateNonFungibleLocationResponse> {
-    let local_var_configuration = configuration;
-
-    let local_var_client = &local_var_configuration.client;
-
-    let local_var_uri_str = format!(
-        "{}/state/non-fungible/location",
-        local_var_configuration.base_path
-    );
-    let mut local_var_req_builder =
-        local_var_client.request(reqwest::Method::POST, local_var_uri_str.as_str());
-
-    if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
-        local_var_req_builder =
-            local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
-    }
-    local_var_req_builder = local_var_req_builder.json(&state_non_fungible_location_request);
-
-    let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client
-        .execute(local_var_req, configuration.call_options.clone())
-        .await?;
-
-    let local_var_status = StatusCode::from_str(local_var_resp.status.to_string().as_str())?;
-    let local_var_content = local_var_resp.body;
-
-    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
-        serde_json::from_slice(&local_var_content).map_err(anyhow::Error::from)
-    } else {
-        let local_var_entity: Option<NonFungibleLocationError> =
-            serde_json::from_slice(&local_var_content).ok();
-        let local_var_error = ResponseContent {
-            status: local_var_status,
-            content: serde_json::to_string_pretty(local_var_content.as_slice())?,
-            entity: local_var_entity,
-        };
-        Err(Error::ResponseError(local_var_error).into())
-    }
+    invoke!(
+        configuration,
+        state_non_fungible_location_request,
+        "/state/non-fungible/location"
+    )
 }
 
 /// Returns all the blueprints associated with a given package entity. The returned response is in a paginated format, ordered by first appearance on the ledger.
@@ -785,43 +338,11 @@ pub async fn package_blueprint_page<T: Client>(
     configuration: &configuration::Configuration<T>,
     state_package_blueprint_page_request: models::StatePackageBlueprintPageRequest,
 ) -> Result<models::StatePackageBlueprintPageResponse> {
-    let local_var_configuration = configuration;
-
-    let local_var_client = &local_var_configuration.client;
-
-    let local_var_uri_str = format!(
-        "{}/state/package/page/blueprints",
-        local_var_configuration.base_path
-    );
-    let mut local_var_req_builder =
-        local_var_client.request(reqwest::Method::POST, local_var_uri_str.as_str());
-
-    if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
-        local_var_req_builder =
-            local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
-    }
-    local_var_req_builder = local_var_req_builder.json(&state_package_blueprint_page_request);
-
-    let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client
-        .execute(local_var_req, configuration.call_options.clone())
-        .await?;
-
-    let local_var_status = StatusCode::from_str(local_var_resp.status.to_string().as_str())?;
-    let local_var_content = local_var_resp.body;
-
-    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
-        serde_json::from_slice(&local_var_content).map_err(anyhow::Error::from)
-    } else {
-        let local_var_entity: Option<PackageBlueprintPageError> =
-            serde_json::from_slice(&local_var_content).ok();
-        let local_var_error = ResponseContent {
-            status: local_var_status,
-            content: serde_json::to_string_pretty(local_var_content.as_slice())?,
-            entity: local_var_entity,
-        };
-        Err(Error::ResponseError(local_var_error).into())
-    }
+    invoke!(
+        configuration,
+        state_package_blueprint_page_request,
+        "/state/package/page/blueprints"
+    )
 }
 
 /// Returns all the codes associated with a given package entity. The returned response is in a paginated format, ordered by first appearance on the ledger.
@@ -829,43 +350,11 @@ pub async fn package_code_page<T: Client>(
     configuration: &configuration::Configuration<T>,
     state_package_code_page_request: models::StatePackageCodePageRequest,
 ) -> Result<models::StatePackageCodePageResponse> {
-    let local_var_configuration = configuration;
-
-    let local_var_client = &local_var_configuration.client;
-
-    let local_var_uri_str = format!(
-        "{}/state/package/page/codes",
-        local_var_configuration.base_path
-    );
-    let mut local_var_req_builder =
-        local_var_client.request(reqwest::Method::POST, local_var_uri_str.as_str());
-
-    if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
-        local_var_req_builder =
-            local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
-    }
-    local_var_req_builder = local_var_req_builder.json(&state_package_code_page_request);
-
-    let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client
-        .execute(local_var_req, configuration.call_options.clone())
-        .await?;
-
-    let local_var_status = StatusCode::from_str(local_var_resp.status.to_string().as_str())?;
-    let local_var_content = local_var_resp.body;
-
-    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
-        serde_json::from_slice(&local_var_content).map_err(anyhow::Error::from)
-    } else {
-        let local_var_entity: Option<PackageCodePageError> =
-            serde_json::from_slice(&local_var_content).ok();
-        let local_var_error = ResponseContent {
-            status: local_var_status,
-            content: serde_json::to_string_pretty(local_var_content.as_slice())?,
-            entity: local_var_entity,
-        };
-        Err(Error::ResponseError(local_var_error).into())
-    }
+    invoke!(
+        configuration,
+        state_package_code_page_request,
+        "/state/package/page/codes"
+    )
 }
 
 /// Returns detailed information for collection of entities. Aggregate resources globally by default.
@@ -873,81 +362,20 @@ pub async fn state_entity_details<T: Client>(
     configuration: &configuration::Configuration<T>,
     state_entity_details_request: models::StateEntityDetailsRequest,
 ) -> Result<models::StateEntityDetailsResponse> {
-    let local_var_configuration = configuration;
-
-    let local_var_client = &local_var_configuration.client;
-
-    let local_var_uri_str = format!("{}/state/entity/details", local_var_configuration.base_path);
-    let mut local_var_req_builder =
-        local_var_client.request(reqwest::Method::POST, local_var_uri_str.as_str());
-
-    if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
-        local_var_req_builder =
-            local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
-    }
-    local_var_req_builder = local_var_req_builder.json(&state_entity_details_request);
-
-    let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client
-        .execute(local_var_req, configuration.call_options.clone())
-        .await?;
-
-    let local_var_status = StatusCode::from_str(local_var_resp.status.to_string().as_str())?;
-    let local_var_content = local_var_resp.body;
-
-    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
-        serde_json::from_slice(&local_var_content).map_err(anyhow::Error::from)
-    } else {
-        let local_var_entity: Option<StateEntityDetailsError> =
-            serde_json::from_slice(&local_var_content).ok();
-        let local_var_error = ResponseContent {
-            status: local_var_status,
-            content: serde_json::to_string_pretty(local_var_content.as_slice())?,
-            entity: local_var_entity,
-        };
-        Err(Error::ResponseError(local_var_error).into())
-    }
+    invoke!(
+        configuration,
+        state_entity_details_request,
+        "/state/entity/details"
+    )
 }
 
 pub async fn state_validators_list<T: Client>(
     configuration: &configuration::Configuration<T>,
     state_validators_list_request: models::StateValidatorsListRequest,
 ) -> Result<models::StateValidatorsListResponse> {
-    let local_var_configuration = configuration;
-
-    let local_var_client = &local_var_configuration.client;
-
-    let local_var_uri_str = format!(
-        "{}/state/validators/list",
-        local_var_configuration.base_path
-    );
-    let mut local_var_req_builder =
-        local_var_client.request(reqwest::Method::POST, local_var_uri_str.as_str());
-
-    if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
-        local_var_req_builder =
-            local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
-    }
-    local_var_req_builder = local_var_req_builder.json(&state_validators_list_request);
-
-    let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client
-        .execute(local_var_req, configuration.call_options.clone())
-        .await?;
-
-    let local_var_status = StatusCode::from_str(local_var_resp.status.to_string().as_str())?;
-    let local_var_content = local_var_resp.body;
-
-    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
-        serde_json::from_slice(&local_var_content).map_err(anyhow::Error::from)
-    } else {
-        let local_var_entity: Option<StateValidatorsListError> =
-            serde_json::from_slice(&local_var_content).ok();
-        let local_var_error = ResponseContent {
-            status: local_var_status,
-            content: serde_json::to_string_pretty(local_var_content.as_slice())?,
-            entity: local_var_entity,
-        };
-        Err(Error::ResponseError(local_var_error).into())
-    }
+    invoke!(
+        configuration,
+        state_validators_list_request,
+        "/state/validators/list"
+    )
 }

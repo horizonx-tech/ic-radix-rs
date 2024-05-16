@@ -11,10 +11,9 @@
 use std::str::FromStr;
 
 use anyhow::Result;
-use reqwest::{self, StatusCode};
 
-use super::{configuration, Error};
-use crate::{apis::ResponseContent, client::Client, models};
+use super::{configuration, Error, StatusCode};
+use crate::{apis::ResponseContent, client::Client, invoke, invoke_without_request, models};
 
 /// struct for typed errors of method [`gateway_status`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -34,82 +33,12 @@ pub enum NetworkConfigurationError {
 pub async fn gateway_status<T: Client>(
     configuration: &configuration::Configuration<T>,
 ) -> Result<models::GatewayStatusResponse> {
-    let local_var_configuration = configuration;
-
-    let local_var_client = &local_var_configuration.client;
-
-    let local_var_uri_str = format!(
-        "{}/status/gateway-status",
-        local_var_configuration.base_path
-    );
-    let mut local_var_req_builder =
-        local_var_client.request(reqwest::Method::POST, local_var_uri_str.as_str());
-
-    if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
-        local_var_req_builder =
-            local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
-    }
-
-    let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client
-        .execute(local_var_req, configuration.call_options.clone())
-        .await?;
-
-    let local_var_status = StatusCode::from_str(local_var_resp.status.to_string().as_str())?;
-    let local_var_content = local_var_resp.body;
-
-    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
-        serde_json::from_slice(&local_var_content).map_err(anyhow::Error::from)
-    } else {
-        let local_var_entity: Option<GatewayStatusError> =
-            serde_json::from_slice(&local_var_content).ok();
-        let local_var_error = ResponseContent {
-            status: local_var_status,
-            content: serde_json::to_string_pretty(local_var_content.as_slice())?,
-            entity: local_var_entity,
-        };
-        Err(Error::ResponseError(local_var_error).into())
-    }
+    invoke_without_request!(configuration, "/status/gateway-status")
 }
 
 /// Returns network identifier, network name and well-known network addresses.
 pub async fn network_configuration<T: Client>(
     configuration: &configuration::Configuration<T>,
 ) -> Result<models::NetworkConfigurationResponse> {
-    let local_var_configuration = configuration;
-
-    let local_var_client = &local_var_configuration.client;
-
-    let local_var_uri_str = format!(
-        "{}/status/network-configuration",
-        local_var_configuration.base_path
-    );
-    let mut local_var_req_builder =
-        local_var_client.request(reqwest::Method::POST, local_var_uri_str.as_str());
-
-    if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
-        local_var_req_builder =
-            local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
-    }
-
-    let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client
-        .execute(local_var_req, configuration.call_options.clone())
-        .await?;
-
-    let local_var_status = StatusCode::from_str(local_var_resp.status.to_string().as_str())?;
-    let local_var_content = local_var_resp.body;
-
-    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
-        serde_json::from_slice(&local_var_content).map_err(anyhow::Error::from)
-    } else {
-        let local_var_entity: Option<NetworkConfigurationError> =
-            serde_json::from_slice(&local_var_content).ok();
-        let local_var_error = ResponseContent {
-            status: local_var_status,
-            content: serde_json::to_string_pretty(local_var_content.as_slice())?,
-            entity: local_var_entity,
-        };
-        Err(Error::ResponseError(local_var_error).into())
-    }
+    invoke_without_request!(configuration, "/status/network-configuration")
 }
