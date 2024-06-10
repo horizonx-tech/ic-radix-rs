@@ -10,7 +10,7 @@
 
 use crate::models;
 
-#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize, candid::CandidType)]
 pub struct RoyaltyAmount {
     /// String-encoded decimal representing the amount of a related fungible resource.
     #[serde(rename = "amount")]
@@ -28,7 +28,7 @@ impl RoyaltyAmount {
     }
 }
 /// 
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, candid::CandidType)]
 pub enum Unit {
     #[serde(rename = "XRD")]
     Xrd,

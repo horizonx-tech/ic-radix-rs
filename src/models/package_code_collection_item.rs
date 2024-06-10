@@ -10,7 +10,7 @@
 
 use crate::models;
 
-#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize, candid::CandidType)]
 pub struct PackageCodeCollectionItem {
     #[serde(rename = "vm_type")]
     pub vm_type: models::PackageVmType,

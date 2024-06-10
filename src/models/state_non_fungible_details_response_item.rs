@@ -10,7 +10,7 @@
 
 use crate::models;
 
-#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize, candid::CandidType)]
 pub struct StateNonFungibleDetailsResponseItem {
     #[serde(rename = "is_burned")]
     pub is_burned: bool,

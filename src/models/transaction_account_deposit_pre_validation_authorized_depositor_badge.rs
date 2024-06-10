@@ -10,7 +10,7 @@
 
 use crate::models;
 
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize, candid::CandidType)]
 #[serde(tag = "badge_type")]
 pub enum TransactionAccountDepositPreValidationAuthorizedDepositorBadge {
     #[serde(rename="NonFungibleBadge")]

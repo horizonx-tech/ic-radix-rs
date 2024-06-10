@@ -10,7 +10,7 @@
 
 use crate::models;
 
-#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize, candid::CandidType)]
 pub struct StateEntityDetailsResponseItemAncestorIdentities {
     /// Bech32m-encoded human readable version of the address.
     #[serde(rename = "parent_address", skip_serializing_if = "Option::is_none")]

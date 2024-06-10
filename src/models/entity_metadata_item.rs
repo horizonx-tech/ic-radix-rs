@@ -11,7 +11,7 @@
 use crate::models;
 
 /// EntityMetadataItem : Entity metadata key-value pair.
-#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize, candid::CandidType)]
 pub struct EntityMetadataItem {
     /// Entity metadata key.
     #[serde(rename = "key")]

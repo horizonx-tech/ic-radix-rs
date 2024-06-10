@@ -10,7 +10,7 @@
 
 use crate::models;
 
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize, candid::CandidType)]
 #[serde(tag = "aggregation_level")]
 pub enum FungibleResourcesCollectionItem {
     #[serde(rename="Global")]

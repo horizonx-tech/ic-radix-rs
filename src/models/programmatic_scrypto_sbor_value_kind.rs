@@ -12,7 +12,7 @@ use crate::models;
 
 /// ProgrammaticScryptoSborValueKind : These are the Scrypto SBOR `ValueKind`s, but with `Bytes` added as an alias for `Vec`, to display such values as hex-encoded strings. 
 /// These are the Scrypto SBOR `ValueKind`s, but with `Bytes` added as an alias for `Vec`, to display such values as hex-encoded strings. 
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, candid::CandidType)]
 pub enum ProgrammaticScryptoSborValueKind {
     #[serde(rename = "Bool")]
     Bool,

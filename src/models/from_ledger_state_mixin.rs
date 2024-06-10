@@ -11,7 +11,7 @@
 use crate::models;
 
 /// FromLedgerStateMixin : defines lower boundary (inclusive) for queried data. i.e `{ \"from_state_version\" = {\"epoch\" = 10} }`, will return data from epoch 10 till current max ledger tip.
-#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize, candid::CandidType)]
 pub struct FromLedgerStateMixin {
     #[serde(rename = "from_ledger_state", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub from_ledger_state: Option<Option<Box<models::LedgerStateSelector>>>,

@@ -10,7 +10,7 @@
 
 use crate::models;
 
-#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize, candid::CandidType)]
 pub struct TransactionPreviewRequestFlags {
     #[serde(rename = "use_free_credit")]
     pub use_free_credit: bool,

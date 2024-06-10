@@ -12,7 +12,7 @@ use crate::models;
 
 /// TransactionPayloadGatewayHandlingStatus : A status concerning the Gateway's handling status of this pending transaction. 
 /// A status concerning the Gateway's handling status of this pending transaction. 
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, candid::CandidType)]
 pub enum TransactionPayloadGatewayHandlingStatus {
     #[serde(rename = "HandlingSubmission")]
     HandlingSubmission,

@@ -10,7 +10,7 @@
 
 use crate::models;
 
-#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize, candid::CandidType)]
 pub struct TransactionDetailsOptIns {
     /// if set to `true`, raw transaction hex is returned.
     #[serde(rename = "raw_hex", skip_serializing_if = "Option::is_none")]

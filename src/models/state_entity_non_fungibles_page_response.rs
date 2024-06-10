@@ -10,7 +10,7 @@
 
 use crate::models;
 
-#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize, candid::CandidType)]
 pub struct StateEntityNonFungiblesPageResponse {
     #[serde(rename = "ledger_state")]
     pub ledger_state: Box<models::LedgerState>,

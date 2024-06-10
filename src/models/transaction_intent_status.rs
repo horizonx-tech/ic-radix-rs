@@ -12,7 +12,7 @@ use crate::models;
 
 /// TransactionIntentStatus : A more specific intent status. See the description field for further information. Note that `CommitPendingOutcomeUnknown` can either result in `CommittedSuccess` or `CommittedFailure`. 
 /// A more specific intent status. See the description field for further information. Note that `CommitPendingOutcomeUnknown` can either result in `CommittedSuccess` or `CommittedFailure`. 
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, candid::CandidType)]
 pub enum TransactionIntentStatus {
     #[serde(rename = "Unknown")]
     Unknown,

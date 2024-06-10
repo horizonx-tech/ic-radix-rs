@@ -11,7 +11,7 @@
 use crate::models;
 
 /// AtLedgerStateMixin : defines upper boundary (inclusive) for queried data. i.e `{ \"at_state_version\" = {\"epoch\" = 10} }`, will return data till 10 epoch.
-#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize, candid::CandidType)]
 pub struct AtLedgerStateMixin {
     #[serde(rename = "at_ledger_state", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub at_ledger_state: Option<Option<Box<models::LedgerStateSelector>>>,

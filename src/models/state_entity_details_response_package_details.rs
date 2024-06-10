@@ -11,7 +11,7 @@
 use crate::models;
 
 /// StateEntityDetailsResponsePackageDetails : vm_type, code_hash_hex and code_hex are always going to be empty, use `codes` property which will return collection (it's possible after protocol update that package might have multiple codes)
-#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize, candid::CandidType)]
 pub struct StateEntityDetailsResponsePackageDetails {
     #[serde(rename = "type")]
     pub r#type: models::StateEntityDetailsResponseItemDetailsType,

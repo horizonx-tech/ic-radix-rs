@@ -10,7 +10,7 @@
 
 use crate::models;
 
-#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize, candid::CandidType)]
 pub struct GatewayInfoResponseReleaseInfo {
     /// The release that is currently deployed to the Gateway API.
     #[serde(rename = "release_version")]

@@ -10,7 +10,7 @@
 
 use crate::models;
 
-#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize, candid::CandidType)]
 pub struct TransactionBalanceChanges {
     /// A list of all fee-related fungible balance changes per entity and resource. 
     #[serde(rename = "fungible_fee_balance_changes")]

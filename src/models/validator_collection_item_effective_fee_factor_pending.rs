@@ -10,7 +10,7 @@
 
 use crate::models;
 
-#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize, candid::CandidType)]
 pub struct ValidatorCollectionItemEffectiveFeeFactorPending {
     /// String-encoded decimal representing the amount of a related fungible resource.
     #[serde(rename = "fee_factor")]

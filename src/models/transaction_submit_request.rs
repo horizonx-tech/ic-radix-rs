@@ -10,7 +10,7 @@
 
 use crate::models;
 
-#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize, candid::CandidType)]
 pub struct TransactionSubmitRequest {
     /// Hex-encoded notarized transaction payload which can be submitted.
     #[serde(rename = "notarized_transaction_hex")]

@@ -10,7 +10,7 @@
 
 use crate::models;
 
-#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize, candid::CandidType)]
 pub struct AccountDepositPreValidationResourceBadge {
     #[serde(rename = "badge_type")]
     pub badge_type: models::AccountAuthorizedDepositorBadgeType,

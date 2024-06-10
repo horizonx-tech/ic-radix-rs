@@ -10,7 +10,7 @@
 
 use crate::models;
 
-#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize, candid::CandidType)]
 pub struct AccountDepositPreValidationDecidingFactorsResourceSpecificDetailsItem {
     /// Bech32m-encoded human readable version of the address.
     #[serde(rename = "resource_address")]

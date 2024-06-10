@@ -11,7 +11,7 @@
 use crate::models;
 
 /// 
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, candid::CandidType)]
 pub enum StateEntityDetailsResponseItemDetailsType {
     #[serde(rename = "FungibleResource")]
     FungibleResource,

@@ -11,7 +11,7 @@
 use crate::models;
 
 /// StateEntityFungiblesPageRequestOptIns : Check detailed [OptIns](#section/Using-endpoints-with-opt-in-features) documentation for more details
-#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize, candid::CandidType)]
 pub struct StateEntityFungiblesPageRequestOptIns {
     /// allows specifying explicitly metadata properties which should be returned in response, limited to max 20 items.
     #[serde(rename = "explicit_metadata", skip_serializing_if = "Option::is_none")]

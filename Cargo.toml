@@ -1,6 +1,6 @@
 [package]
 name = "ic-radix-rs"
-version = "0.0.2"
+version = "0.0.3"
 authors = ["hideyoshi"]
 edition = "2018"
 description = "A library for interacting Radix DLT within the Internet Computer"

@@ -10,7 +10,7 @@
 
 use crate::models;
 
-#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize, candid::CandidType)]
 pub struct StreamTransactionsRequest {
     #[serde(rename = "at_ledger_state", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub at_ledger_state: Option<Option<Box<models::LedgerStateSelector>>>,
@@ -73,7 +73,7 @@ impl StreamTransactionsRequest {
     }
 }
 /// Limit returned transactions by their kind. Defaults to `user`.
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, candid::CandidType)]
 pub enum KindFilter {
     #[serde(rename = "User")]
     User,
@@ -89,7 +89,7 @@ impl Default for KindFilter {
     }
 }
 /// Configures the order of returned result set. Defaults to `desc`.
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, candid::CandidType)]
 pub enum Order {
     #[serde(rename = "Asc")]
     Asc,

@@ -12,7 +12,7 @@ use crate::models;
 
 /// AccountDefaultDepositRule : Default deposit rule set to an account.
 /// Default deposit rule set to an account.
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, candid::CandidType)]
 pub enum AccountDefaultDepositRule {
     #[serde(rename = "Accept")]
     Accept,

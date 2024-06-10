@@ -10,7 +10,7 @@
 
 use crate::models;
 
-#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize, candid::CandidType)]
 pub struct NonFungibleResourcesCollectionItemVaultAggregated {
     #[serde(rename = "aggregation_level")]
     pub aggregation_level: models::ResourceAggregationLevel,

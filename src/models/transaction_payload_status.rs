@@ -12,7 +12,7 @@ use crate::models;
 
 /// TransactionPayloadStatus : A more specific payload status. See the description field for further information. 
 /// A more specific payload status. See the description field for further information. 
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, candid::CandidType)]
 pub enum TransactionPayloadStatus {
     #[serde(rename = "Unknown")]
     Unknown,

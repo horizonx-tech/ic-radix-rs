@@ -10,7 +10,7 @@
 
 use crate::models;
 
-#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize, candid::CandidType)]
 pub struct PublicKeyEddsaEd25519 {
     #[serde(rename = "key_type")]
     pub key_type: models::PublicKeyType,

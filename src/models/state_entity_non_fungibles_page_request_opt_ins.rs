@@ -11,7 +11,7 @@
 use crate::models;
 
 /// StateEntityNonFungiblesPageRequestOptIns : Check detailed [OptIns](#section/Using-endpoints-with-opt-in-features) documentation for more details
-#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize, candid::CandidType)]
 pub struct StateEntityNonFungiblesPageRequestOptIns {
     /// if set to `true`, first page of non fungible ids are returned for each non fungible resource, with cursor which can be later used at `/state/entity/page/non-fungible-vault/ids` endpoint.
     #[serde(rename = "non_fungible_include_nfids", skip_serializing_if = "Option::is_none")]

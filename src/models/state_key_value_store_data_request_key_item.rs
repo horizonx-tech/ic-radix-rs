@@ -10,7 +10,7 @@
 
 use crate::models;
 
-#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize, candid::CandidType)]
 pub struct StateKeyValueStoreDataRequestKeyItem {
     /// Hex-encoded binary blob.
     #[serde(rename = "key_hex", skip_serializing_if = "Option::is_none")]

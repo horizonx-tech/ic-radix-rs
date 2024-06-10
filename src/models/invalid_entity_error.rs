@@ -10,7 +10,7 @@
 
 use crate::models;
 
-#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize, candid::CandidType)]
 pub struct InvalidEntityError {
     /// The type of error. Each subtype may have its own additional structured fields.
     #[serde(rename = "type")]

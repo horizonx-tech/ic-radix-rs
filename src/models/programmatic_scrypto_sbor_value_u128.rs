@@ -10,7 +10,7 @@
 
 use crate::models;
 
-#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize, candid::CandidType)]
 pub struct ProgrammaticScryptoSborValueU128 {
     #[serde(rename = "kind")]
     pub kind: models::ProgrammaticScryptoSborValueKind,

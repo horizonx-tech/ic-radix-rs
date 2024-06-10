@@ -10,7 +10,7 @@
 
 use crate::models;
 
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize, candid::CandidType)]
 #[serde(tag = "key_hash_type")]
 pub enum PublicKeyHash {
     #[serde(rename="EcdsaSecp256k1")]

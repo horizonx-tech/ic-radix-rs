@@ -10,7 +10,7 @@
 
 use crate::models;
 
-#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize, candid::CandidType)]
 pub struct StateNonFungibleLocationResponseItem {
     /// String-encoded non-fungible ID.
     #[serde(rename = "non_fungible_id")]

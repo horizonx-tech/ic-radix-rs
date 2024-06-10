@@ -11,7 +11,7 @@
 use crate::models;
 
 /// AccountDepositPreValidationDecidingFactors : Deciding factors used to calculate response.
-#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize, candid::CandidType)]
 pub struct AccountDepositPreValidationDecidingFactors {
     /// Whether the input badge belongs to the account's set of authorized depositors. This field will only be present if any badge was passed in the request.
     #[serde(rename = "is_badge_authorized_depositor", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]

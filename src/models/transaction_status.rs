@@ -12,7 +12,7 @@ use crate::models;
 
 /// TransactionStatus : A top-level intent status, left in for backwards compatibility. It doesn't give much information. Rejected means PermanentRejection. 
 /// A top-level intent status, left in for backwards compatibility. It doesn't give much information. Rejected means PermanentRejection. 
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, candid::CandidType)]
 pub enum TransactionStatus {
     #[serde(rename = "Unknown")]
     Unknown,
