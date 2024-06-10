@@ -15,3 +15,4 @@ ic-cdk-macros = "0.13.3"
 ic-cdk-timers = "0.7" # Feel free to remove this dependency if you don't need timers
 ic-radix-rs = { path = "../../" }
 serde = "1.0.202"
+radix-engine-toolkit-uniffi = "2.0.1"
